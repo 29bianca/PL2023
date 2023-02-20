@@ -103,7 +103,7 @@ def dist_doencaEsc(dados,escaloes): #nr pessoas que tem a doença e que esta num
 
 def tabela_distEscalao(aidade, atotal, adoentes):
     print("\n\n|--------------------------------------------------|")
-    print("|          Distribuiçãopor Escalão Etário          |")
+    print("|         Distribuição por Escalão Etário          |")
     print("|--------------------------------------------------|")
     print("| Escalão Etário  | Doentes  |   Total  |    (%)   |")
     print("|--------------------------------------------------|")
@@ -173,10 +173,10 @@ def tabela_distColesterol(idade,nPessoas,nDoentes):
         print("|-------------------------------------------|")   
 
 
-
 def main():
     ficheiro = 'myheart.csv'
     dados=ler_infos(ficheiro)
+    
     #print('Dados lidos: ')
     #for linha in dados:
     #    print(linha)
@@ -214,11 +214,29 @@ def main():
     distColesterolEsc = dist_colesterolEsc(dados,escaloesColesterol)
     #print(distColesterolEsc)
 
-    tabela_distSexo(dados)
 
-    tabela_distEscalao(escaloesIdade,distEscalao,distDoencaEsc)
+
+# Loop principal do programa
+    while True:
+        print("Escolha uma opção:")
+        print("1. Tabela Distribuição por sexo")
+        print("2. Tabela Distribuição por escalão etário")
+        print("3. Tabela Distribuição por nível de colesterol")
+        print("4. Sair")
+        escolha = input("Digite o número da opção desejada: ")
     
-    tabela_distColesterol(escaloesColesterol,distColesterol, distColesterolEsc)
+    # Verificar a escolha do usuário
+        if escolha == "1":
+            tabela_distSexo(dados)
+        elif escolha == "2":
+            tabela_distEscalao(escaloesIdade,distEscalao,distDoencaEsc)
+        elif escolha == "3":
+            tabela_distColesterol(escaloesColesterol,distColesterol, distColesterolEsc)
+        elif escolha == "4":
+            print("Saindo...")
+            break
+        else:
+            print("Escolha inválida. Tente novamente.")
 
 
 if __name__ == '__main__':
