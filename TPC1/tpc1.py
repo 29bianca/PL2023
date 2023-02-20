@@ -1,6 +1,6 @@
 def ler_infos(ficheiro):
     with open(ficheiro) as f:
-        next(f) #a primeira linha do ficheiro do csv não interessa
+        next(f)     #a primeira linha do ficheiro do csv não interessa
 
         dados=[]    #matriz com os dados
 
@@ -23,7 +23,7 @@ def ler_infos(ficheiro):
             dados.append(dic_dados)
     return dados            
 
-
+#--------------------Distribuição por Sexo----------------------#
 def dist_sexo(dados):
     dist = {'M': 0, 'F': 0, 'M2':0, 'F2':0}
     for linha in dados:
@@ -40,7 +40,7 @@ def dist_sexo(dados):
 
     return dist   
 
-#-------------------------------------#
+#--------------------Distribuição por Escalão Etário----------------------#
 
 def idade_min(dados):
     min = 1000
@@ -86,7 +86,7 @@ def dist_doencaEsc(dados,escaloes): #nr pessoas que tem a doença e que esta num
         array.append(c)  
     return array   
 
-#-----------------------------------------------#
+#--------------------Distribuição por Níveis de Colesterol----------------------#
 def colesterol_min(dados):
     min = 1000
     for linha in dados:
@@ -101,15 +101,15 @@ def colesterol_max(dados):
             max = linha['colesterol']
     return max    
 
-def escalao_colesterol(colemin, colemax):
+def escalao_colesterol(colmin, colmax):
     escColes = []
-    for i in range(colemin, colemax + 1, 10):
+    for i in range(colmin, colmax + 1, 10):
         escColes.append((i, i + 9))
     return escColes
 
-def dist_colesterol(dados,escColes): 
+def dist_colesterol(dados,escaloes): 
     array = []
-    for e in escColes:
+    for e in escaloes:
         min = e[0] 
         max = e[1]
         c = 0
@@ -120,7 +120,7 @@ def dist_colesterol(dados,escColes):
     return array          
 
 
-def dist_colesEsc(dados,escaloes): 
+def dist_colesterolEsc(dados,escaloes): 
     array = []
     for e in escaloes:
         min = e[0] 
@@ -156,20 +156,23 @@ def main():
     distEscalao = dist_escalao(dados,escaloesIdade)
     print(distEscalao)
 
-    print(dist_doencaEsc(dados,escaloesIdade))
+    distDoencaEsc = dist_doencaEsc(dados,escaloesIdade)
+    print(distDoencaEsc)
 
-    colesMin = colesterol_min(dados)
-    print(colesMin)
+    colMin = colesterol_min(dados)
+    print(colMin)
 
-    colesMax = colesterol_max(dados)
-    print(colesMax)
+    colMax = colesterol_max(dados)
+    print(colMax)
 
-    escaloesColesterol = escalao_colesterol(colesMin,colesMax)
+    escaloesColesterol = escalao_colesterol(colMin,colMax)
     print(escaloesColesterol)
 
-    print(dist_colesterol(dados,escaloesColesterol))
+    distColesterol = dist_colesterol(dados,escaloesColesterol)
+    print(distColesterol)
 
-    print(dist_colesEsc(dados,escaloesColesterol))
+    distColesterolEsc = dist_colesterolEsc(dados,escaloesColesterol)
+    print(distColesterolEsc)
 
 
 if __name__ == '__main__':
