@@ -38,7 +38,21 @@ def dist_sexo(dados):
         else:
              dist['F2']+=1
 
-    return dist   
+    return dist  
+
+
+def tabela_distSexo(dados):
+    dados = dist_sexo(dados)
+    print("\n\n|-------------------------------------------|")
+    print("|           Distribuição por Sexo           |")
+    print("|-------------------------------------------|")
+    print("|   Sexo   |  Doentes |   Total  |    (%)   |")
+    print("|-------------------------------------------|")
+    print('|  {:<8}|  {:<8}|  {:<8}|  {:<8}|'.format("Homem",str(dados['M']),str(dados['M2']), str("{:.2f}%".format((dados['M'] / dados['M2']) * 100))))
+    print("|-------------------------------------------|")
+    print('|  {:<8}|  {:<8}|  {:<8}|  {:<8}|'.format("Mulher",str(dados['F']),str(dados['F2']), str("{:.2f}%".format((dados['F'] / dados['F2']) * 100))))
+    print("|-------------------------------------------|\n\n")
+
 
 #--------------------Distribuição por Escalão Etário----------------------#
 
@@ -86,6 +100,19 @@ def dist_doencaEsc(dados,escaloes): #nr pessoas que tem a doença e que esta num
         array.append(c)  
     return array   
 
+
+def tabela_distEscalao(aidade, atotal, adoentes):
+    print("\n\n|--------------------------------------------------|")
+    print("|          Distribuiçãopor Escalão Etário          |")
+    print("|--------------------------------------------------|")
+    print("| Escalão Etário  | Doentes  |   Total  |    (%)   |")
+    print("|--------------------------------------------------|")
+    for i, d, t in zip(aidade, atotal, adoentes):
+        #print(i, t, d)
+        print("|      {:<11}|  {:<8}|  {:8}|  {:<8}|".format(str(i), str(t), str(d), str("{:.2f}%".format((t / d) * 100))))
+        print("|--------------------------------------------------|")
+
+
 #--------------------Distribuição por Níveis de Colesterol----------------------#
 def colesterol_min(dados):
     min = 1000
@@ -101,11 +128,13 @@ def colesterol_max(dados):
             max = linha['colesterol']
     return max    
 
+# Array com todos os escalões
 def escalao_colesterol(colmin, colmax):
     escColes = []
     for i in range(colmin, colmax + 1, 10):
         escColes.append((i, i + 9))
     return escColes
+
 
 def dist_colesterol(dados,escaloes): 
     array = []
@@ -132,47 +161,64 @@ def dist_colesterolEsc(dados,escaloes):
         array.append(c)  
     return array   
 
+def tabela_distColesterol(idade,nPessoas,nDoentes):
+    print("\n\n|-------------------------------------------|")
+    print("|    Distribuição por Nível de Colesterol   |")
+    print("|-------------------------------------------|")
+    print("|  Nível Colesterol   | Doentes  |   Total  |")
+    print("|-------------------------------------------|")
+
+    for i,n,d in zip(idade, nPessoas, nDoentes):
+        print("|        {:<13}|  {:<8}|  {:<8}|".format(str(i), str(d), str(n), ))
+        print("|-------------------------------------------|")   
+
 
 
 def main():
     ficheiro = 'myheart.csv'
     dados=ler_infos(ficheiro)
-    print('Dados lidos: ')
-    for linha in dados:
-        print(linha)
+    #print('Dados lidos: ')
+    #for linha in dados:
+    #    print(linha)
 
     distDoencaSexo = dist_sexo(dados)
-    print ('A distribuição da doença por sexo é: ', distDoencaSexo)
+    #print ('A distribuição da doença por sexo é: ', distDoencaSexo)
 
     idadeMin = idade_min(dados)
-    print(idadeMin)
+    #print(idadeMin)
 
     idadeMax = idade_max(dados)
-    print(idadeMax)
+    #print(idadeMax)
 
     escaloesIdade = escalao(idadeMin,idadeMax)
-    print(escaloesIdade)
+    #print(escaloesIdade)
 
     distEscalao = dist_escalao(dados,escaloesIdade)
-    print(distEscalao)
+    #print(distEscalao)
 
     distDoencaEsc = dist_doencaEsc(dados,escaloesIdade)
-    print(distDoencaEsc)
+    #print(distDoencaEsc)
 
     colMin = colesterol_min(dados)
-    print(colMin)
+    #print(colMin)
 
     colMax = colesterol_max(dados)
-    print(colMax)
+    #print(colMax)
 
     escaloesColesterol = escalao_colesterol(colMin,colMax)
-    print(escaloesColesterol)
+    #print(escaloesColesterol)
 
     distColesterol = dist_colesterol(dados,escaloesColesterol)
-    print(distColesterol)
+    #print(distColesterol)
 
     distColesterolEsc = dist_colesterolEsc(dados,escaloesColesterol)
-    print(distColesterolEsc)
+    #print(distColesterolEsc)
+
+    tabela_distSexo(dados)
+
+    tabela_distEscalao(escaloesIdade,distEscalao,distDoencaEsc)
+    
+    tabela_distColesterol(escaloesColesterol,distColesterol, distColesterolEsc)
 
 
 if __name__ == '__main__':
