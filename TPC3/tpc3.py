@@ -63,9 +63,24 @@ def freq_nomes(linhasProcess):
                 break
             print(str(i+1) + ". " + key + " (" +str(value)+")")
         print("")
-    
 
 #freq_nomes(proc_file())
+
+def freq_rel(linhasProcess):
+    dic = {}
+    pattern = re.compile(r",((?:Pai|Filho|Irmao|Avo|Neto|Tio|Sobrinho|Meio|Primo])s?\b\s*[^.\d\(\)]*).")
+    for linha in linhasProcess:
+        if linha['Observacoes'] != None:
+            for m in re.finditer(pattern,linha['Observacoes']):
+                relacoes = m.group(1)
+                if (relacoes not in dic):
+                    dic[relacoes]=1
+                else:
+                    dic[relacoes]+=1
+    return dic
+
+print(freq_rel(proc_file()))
+
 
 def freq_json(linhasProcess):
     with open('ficheiro.json','w') as f:
