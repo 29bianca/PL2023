@@ -1,5 +1,6 @@
 import math
 import re 
+import json
 
 def proc_file():
     with open('processos.txt', 'r') as f:
@@ -64,4 +65,11 @@ def freq_nomes(linhasProcess):
         print("")
     
 
-freq_nomes(proc_file())
+#freq_nomes(proc_file())
+
+def freq_json(linhasProcess):
+    with open('ficheiro.json','w') as f:
+        l = linhasProcess[0:20]
+        json.dump(l,f, indent=1)
+
+freq_json(proc_file())        
